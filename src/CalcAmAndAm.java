@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
+//Два метода для подсчета среднего арифметического и геометрического
 public class CalcAmAndAm {
     public static void main(String[] args) {
         List<Integer> number = new ArrayList<>();
