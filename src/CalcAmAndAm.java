@@ -10,7 +10,6 @@ public class CalcAmAndAm {
     private static final String geom = "-gm";
 
     public static void main(String[] args) {
-        number = new ArrayList<>();
 
         selectMetod();
 
@@ -18,52 +17,66 @@ public class CalcAmAndAm {
 
     private static void selectMetod() {
         System.out.println("Введите ключ -am, если хотите узнать среднее арифмитическое.\n Если хотите узнать среднее геометрическое, введите -gm");
+
         while (true) {
             sc = new Scanner(System.in);
             String str = sc.nextLine();
             if (str.equals(math)) {
-                calcAm();
+                calcAm(getNumbers());
                 break;
             }
             if (str.equals(geom)) {
-                calcGm();
+                calcGm(getNumbers());
                 break;
             }
             System.out.println("Вы ввели не кокректный ключ, попробуйте еще раз.");
         }
     }
 
-    private static void calcGm() {
-        System.out.println("Введите числа. Отрицательно число - остановка ввода.");
-        sc = new Scanner(System.in);
-        double p = 1, a;
-        int c = 0;
-        while (sc.hasNext()) {
-                a = sc.nextDouble();
-                if (a >= 0) {
-                    c++;
-                    p *= a;
-                }else break;
-        }
-        System.out.printf("%.2f", Math.pow(p, 1.0 / c));
-        //return Math.pow(p, 1.0 / c);
-    }
-
-    private static void calcAm() {
+    private static List<Integer> getNumbers() {
+        number = new ArrayList<>();
+        int s = 0;
         System.out.println("Введите числа. Пустой ввод - остановка ввода.");
         sc = new Scanner(System.in);
-        double result = 0;
-        int count = 0;
         while (true) {
-            String num = sc.nextLine();
-            if (num.equals("")) {
+            String str = sc.nextLine();
+
+            if (str.equals("")) {
                 break;
+            } else if (Integer.parseInt(str) < 0) {
+                System.out.println("Вы ввели отрицательное число, попробуйте еще раз.");
+                continue;
             } else {
-                result += Integer.parseInt(num);
-                count++;
+                try {
+                    number.add(Integer.parseInt(str));
+                } catch (Exception e) {
+                    System.out.println("Вы ввели что то не то!");
+                    continue;
+                }
             }
+
         }
-        System.out.println(result / count);
+        return number;
     }
 
+    private static void calcGm(List<Integer> number) {
+        double p = 1, a;
+        int c = 0;
+        for (Integer it : number) {
+            a = it;
+            c++;
+            p *= a;
+        }
+        System.out.printf("Среднее геометрическое = " + "%.2f", Math.pow(p, 1.0 / c));
+    }
+
+    private static void calcAm(List<Integer> number) {
+        double result = 0;
+        int count = 0;
+        for (Integer it : number) {
+            result += it;
+            count++;
+        }
+        System.out.println("Среднее арифметическое = " + result / count);
+    }
 }
